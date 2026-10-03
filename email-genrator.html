@@ -1,0 +1,389 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Generator</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f7fb;
+        color: #222;
+    }
+
+    .container {
+        max-width: 850px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    .box {
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .intro {
+        text-align: center;
+        color: #666;
+        margin-bottom: 30px;
+    }
+
+    label {
+        display: block;
+        margin-top: 15px;
+        margin-bottom: 6px;
+        font-weight: bold;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 7px;
+        font-size: 15px;
+    }
+
+    textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    button {
+        margin-top: 20px;
+        padding: 13px 20px;
+        border: none;
+        border-radius: 7px;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .generate {
+        width: 100%;
+        background: #2563eb;
+        color: white;
+    }
+
+    .generate:hover {
+        background: #1d4ed8;
+    }
+
+    .result {
+        margin-top: 30px;
+        display: none;
+    }
+
+    .result h2 {
+        margin-bottom: 10px;
+    }
+
+    #emailOutput {
+        white-space: pre-wrap;
+        background: #f8fafc;
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 8px;
+        min-height: 250px;
+        line-height: 1.6;
+    }
+
+    .actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .copy {
+        background: #16a34a;
+        color: white;
+    }
+
+    .clear {
+        background: #6b7280;
+        color: white;
+    }
+
+    .status {
+        margin-top: 10px;
+        color: #16a34a;
+        font-weight: bold;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="box">
+
+        <h1>✉️ Email Generator</h1>
+
+        <p class="intro">
+            Create professional emails quickly and easily.
+        </p>
+
+        <label for="name">Recipient Name</label>
+        <input type="text" id="name" placeholder="e.g. John">
+
+        <label for="purpose">Email Purpose</label>
+        <select id="purpose">
+            <option value="business">Business Inquiry</option>
+            <option value="meeting">Meeting Request</option>
+            <option value="followup">Follow-Up</option>
+            <option value="job">Job Application</option>
+            <option value="complaint">Complaint</option>
+            <option value="thankyou">Thank You</option>
+            <option value="leave">Leave Request</option>
+            <option value="custom">Custom Email</option>
+        </select>
+
+        <label for="tone">Email Tone</label>
+        <select id="tone">
+            <option value="professional">Professional</option>
+            <option value="friendly">Friendly</option>
+            <option value="formal">Formal</option>
+            <option value="short">Short & Simple</option>
+        </select>
+
+        <label for="details">Key Points / Details</label>
+        <textarea id="details"
+            placeholder="Enter the main information you want to include..."></textarea>
+
+        <button class="generate" onclick="generateEmail()">
+            Generate Email
+        </button>
+
+        <div class="result" id="result">
+
+            <h2>Generated Email</h2>
+
+            <div id="emailOutput"></div>
+
+            <div class="actions">
+                <button class="copy" onclick="copyEmail()">
+                    Copy Email
+                </button>
+
+                <button class="clear" onclick="clearEmail()">
+                    Clear
+                </button>
+            </div>
+
+            <div class="status" id="status"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function generateEmail() {
+
+    const name = document.getElementById("name").value.trim();
+    const purpose = document.getElementById("purpose").value;
+    const tone = document.getElementById("tone").value;
+    const details = document.getElementById("details").value.trim();
+
+    const recipient = name || "there";
+    const information = details || "I would like to discuss this matter with you.";
+
+    let subject = "";
+    let body = "";
+
+    switch (purpose) {
+
+        case "business":
+            subject = "Business Inquiry";
+            body = `Dear ${recipient},
+
+I hope you are doing well.
+
+I am writing regarding a business inquiry. ${information}
+
+Please let me know a convenient time to discuss this further.
+
+Thank you for your time and consideration.
+
+Best regards,
+[Your Name]`;
+            break;
+
+        case "meeting":
+            subject = "Meeting Request";
+            body = `Dear ${recipient},
+
+I hope you are doing well.
+
+I would like to request a meeting to discuss the following: ${information}
+
+Please let me know your preferred date and time.
+
+I look forward to speaking with you.
+
+Best regards,
+[Your Name]`;
+            break;
+
+        case "followup":
+            subject = "Following Up";
+            body = `Dear ${recipient},
+
+I hope you are doing well.
+
+I am following up regarding ${information}
+
+Please let me know if you need any additional information from me.
+
+Thank you, and I look forward to hearing from you.
+
+Best regards,
+[Your Name]`;
+            break;
+
+        case "job":
+            subject = "Job Application";
+            body = `Dear ${recipient},
+
+I am writing to express my interest in a job opportunity with your organization.
+
+${information}
+
+I would appreciate the opportunity to discuss my qualifications further. Please find my details/resume attached if applicable.
+
+Thank you for your consideration.
+
+Best regards,
+[Your Name]`;
+            break;
+
+        case "complaint":
+            subject = "Concern Regarding Your Service";
+            body = `Dear ${recipient},
+
+I am writing to bring an issue to your attention.
+
+${information}
+
+I would appreciate it if you could look into this matter and provide an appropriate resolution.
+
+Thank you for your attention.
+
+Best regards,
+[Your Name]`;
+            break;
+
+        case "thankyou":
+            subject = "Thank You";
+            body = `Dear ${recipient},
+
+I would like to sincerely thank you for your help and support.
+
+${information}
+
+I truly appreciate your time and assistance.
+
+Best regards,
+[Your Name]`;
+            break;
+
+        case "leave":
+            subject = "Leave Request";
+            body = `Dear ${recipient},
+
+I would like to request leave due to the following reason:
+
+${information}
+
+I kindly request your approval for the leave.
+
+Thank you for your understanding.
+
+Best regards,
+[Your Name]`;
+            break;
+
+        case "custom":
+            subject = "Email";
+            body = `Dear ${recipient},
+
+${information}
+
+Please let me know if you need any additional information.
+
+Best regards,
+[Your Name]`;
+            break;
+    }
+
+    // Adjust opening and closing for tone
+    if (tone === "friendly") {
+        body = body.replace("Dear " + recipient + ",", "Hi " + recipient + ",");
+        body = body.replace("Best regards,", "Best,");
+    }
+
+    if (tone === "short") {
+        body = `Hi ${recipient},
+
+${information}
+
+Please let me know your thoughts.
+
+Thanks,
+[Your Name]`;
+    }
+
+    if (tone === "formal") {
+        body = body.replace("Dear " + recipient + ",",
+            "Dear " + recipient + ",");
+        body = body.replace("Best regards,", "Yours sincerely,");
+    }
+
+    const finalEmail =
+        "SUBJECT: " + subject + "\n\n" + body;
+
+    document.getElementById("emailOutput").textContent = finalEmail;
+    document.getElementById("result").style.display = "block";
+    document.getElementById("status").textContent = "";
+}
+
+function copyEmail() {
+
+    const email = document.getElementById("emailOutput").textContent;
+
+    navigator.clipboard.writeText(email).then(function() {
+        document.getElementById("status").textContent =
+            "✓ Email copied to clipboard!";
+    });
+}
+
+function clearEmail() {
+
+    document.getElementById("name").value = "";
+    document.getElementById("details").value = "";
+    document.getElementById("emailOutput").textContent = "";
+    document.getElementById("result").style.display = "none";
+    document.getElementById("status").textContent = "";
+}
+
+</script>
+
+</body>
+</html>
+```
